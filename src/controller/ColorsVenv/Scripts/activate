@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Jenna Vlaar\Documents\GitHub\colors\src\controller\ColorsVenv"
+VIRTUAL_ENV="C:\Users\Jenna\Documents\GitHub\colors\src\controller\ColorsVenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
