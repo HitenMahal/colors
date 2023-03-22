@@ -31,7 +31,7 @@ const Login = () => {
               render={(renderProps) => (
                 <button
                   type="button"
-                  className="bg-mainColor flex justify-center items-center p-4 rounded-lg cursor-pointer outline-none font-bold"
+                  className="bg-mainColor flex justify-center items-center p-4 rounded-lg cursor-pointer outline-none font-bold font-mono"
                   onClick={renderProps.onClick}
                   disabled={renderProps.disabled}
                 >
