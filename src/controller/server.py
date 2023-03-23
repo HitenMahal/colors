@@ -1,9 +1,11 @@
-
+import numpy as np
 from fastapi import FastAPI, APIRouter, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from google.cloud import firestore
 import firebase_admin
 from firebase_admin import credentials
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import HTTPException
 
 # Replace with the path to your service account key file
 key_path = "TOPSECRETDONOTSHARE.json"
@@ -37,22 +39,35 @@ app.add_middleware(
 def get_routes():
     return
 
-#Get users - could be used for verification
-@app.get('/')
-def get_users():
-    users = db.collection('User').get()
-    return users
-
-@app.get('/')
+#returns a list of all of a user's post's ID's
 def get_user_posts(user_id):
     doc = db.collection('User').document(user_id).get()
     posts = doc.get("userPosts")
-    print(posts)
-    return
+    return posts
 
-#assumes users are adding posts from the home page
-@app.post('/home') #send image in bytes
-def newPost(user_id, imgID, image):
+#returns a list of user ID's that are friends with given user ID
+def get_user_friends(user_id):
+    doc = db.collection('User').document(user_id).get()
+    friends = doc.get("friends")
+    return friends
+
+#finds all posts meant to be displayed on a given user's home page
+def get_home_posts(user_id):
+    all_posts = get_user_posts(user_id)
+    friends = get_user_friends(user_id)
+    for friend in friends:
+        friends_posts = get_user_posts(friend)
+        np.concatenate(all_posts, friends_posts)
+    
+    for post in all_posts:
+        doc = db.collection("Posts").document(post).get()
+        #sort by date HERE
+        all_images = np.add(doc.get("img"))
+    
+    return all_images
+
+#adds new post to DB
+def new_post(user_id, imgID, image):
     doc = db.collection("Posts").document(imgID)
     doc.set({
         "imgID": imgID,
@@ -66,17 +81,16 @@ def newPost(user_id, imgID, image):
     })
     
     return
-#assumes users are adding reactions from the home page
-@app.post('/home') #send image in bytes
-def newReaction(user_id, imgID, reaction):
+
+#adds new reaction to DB
+def new_reaction(user_id, imgID, reaction):
     db.collection("Posts").document(imgID).update({
         'reactions': firestore.ArrayUnion[{user_id, reaction}]
     })
     return
 
-#assumes users are adding friends from the home page
-@app.post('/home') #send image in bytes
-def addFriend(user_id, friend_id):
+#adds a friend to a user's friends list
+def add_friend(user_id, friend_id):
     db.collection("User").document(user_id).update({
         'friends': firestore.ArrayUnion[friend_id]
     })
