@@ -82,6 +82,15 @@ def new_post(user_id, imgID, image):
     
     return
 
+def top_reactions(imgID):
+    doc = db.collection("Posts").document(imgID)
+    reactions = doc.get("reactions")
+    sorted_reactions = sort_by_frequency(reactions)
+    num_reactions = sorted_reactions.length()
+    top_reactions = [sorted_reactions[num_reactions - 1], sorted_reactions[num_reactions - 2],
+                     sorted_reactions[num_reactions - 3]]
+    return top_reactions
+
 #adds new reaction to DB
 def new_reaction(user_id, imgID, reaction):
     db.collection("Posts").document(imgID).update({
@@ -97,4 +106,21 @@ def add_friend(user_id, friend_id):
     return
 
 
-get_user_posts("firstID1")
+# code snippet taken from 
+# #tutorialspoint.com/program-to-sort-array-by-increasing-frequency-of-elements-in-python
+def sort_by_frequency(array):
+   mp = {}
+   for i in set(array):
+      x = array.count(i)
+      try:
+         mp[x].append(i)
+      except:
+         mp[x] = [i]
+   ans=[]
+
+   for i in sorted(mp):
+      for j in sorted(mp[i], reverse=True):
+         ans.extend([j]*i)
+   return ans
+
+#get_user_posts("firstID1")
