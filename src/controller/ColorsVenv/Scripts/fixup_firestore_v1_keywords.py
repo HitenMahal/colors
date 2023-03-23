@@ -1,4 +1,4 @@
-#!C:\Users\Jenna\Documents\GitHub\colors\src\controller\ColorsVenv\Scripts\python.exe
+#!C:\Users\Jenna Vlaar\Documents\GitHub\colors\src\controller\ColorsVenv\Scripts\python.exe
 # -*- coding: utf-8 -*-
 # Copyright 2022 Google LLC
 #
