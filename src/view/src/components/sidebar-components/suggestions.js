@@ -19,13 +19,13 @@ export default function Suggestions( {userId, following, loggedInUserDocId} ) {
     }, [userId]);
 
     return !profiles ? (
-        <Skeleton count={1} height={150} className="profile-skeleton"/>
+        <Skeleton count={1} height={150} className="mt-5"/>
     ) : profiles.length > 0 ? (
-        <div className="suggested-profile-container">
-            <div className="suggested-text-wrapper">
-                <p className="suggested-text">Suggested Profiles</p>
+        <div className="rounded flex flex-col">
+            <div className="text-sm flex items-center align-items justify-between mb-2">
+                <p className="font-bold text-gray-base">Suggested Profiles</p>
             </div>
-            <div className="suggested-profiles">
+            <div className="mt-4 grid gap-5">
                 {profiles.map((profile) => (
                     <SuggestedProfile
                         key={profile.docId}

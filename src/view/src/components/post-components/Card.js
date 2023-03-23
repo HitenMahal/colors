@@ -11,7 +11,7 @@ export default function Card({content}) {
     const handleFocus = () => commentInput.current.focus();
   
     return (
-        <div className="post">
+        <div className="rounded col-span-4 border bg-white border-gray-primary mb-12">
             <Header username={content.username}/>
             <Image src={content.imageSrc} caption={content.caption}/>
             <Actions

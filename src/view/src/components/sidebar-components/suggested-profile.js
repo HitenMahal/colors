@@ -1,11 +1,13 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
     updateLoggedInUserFollowing,
     updateFollowedUserFollowers,
     getUserByUserId
 } from '../../services/firebase';
 import LoggedInUserContext from '../../context/logged-in-user';
+import { DEFAULT_IMAGE_PATH } from '../../constants/paths';
 
 export default function SuggestedProfile( {
     profileDocId,
@@ -26,21 +28,21 @@ export default function SuggestedProfile( {
     }
 
     return !followed ? (
-        <div className="rec-profile-container">
-            <div className="rec-profile-wrapper">
+        <div className="flex flex-row items-center align-items justify-between">
+            <div className="flex items-center justify-between">
                 <img
-                    className="rec-profile-img"
+                    className="rounded-full w-8 flex mr-3"
                     src={`/images/avatars/${username}.jpg`}
                     alt={`${username} profile picture`}
                     onError={ (e) => {
-                        e.target.src = `/images/avatars/default.png`;
+                        e.target.src = DEFAULT_IMAGE_PATH;
                     }}
                 />
                 <Link to={`/p/${username}`}>
-                    <p className="rec-profile-name">{username}</p>
+                    <p className="font-bold text-sm">{username}</p>
                 </Link>
             </div>
-            <button className="rec-profile-btn" type="button" onClick={handleFollowUser}>
+            <button className="text-xs font-bold text-blue-medium" type="button" onClick={handleFollowUser}>
                 Follow
             </button>
         </div>

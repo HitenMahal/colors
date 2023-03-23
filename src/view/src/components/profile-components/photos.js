@@ -3,8 +3,8 @@ import Skeleton from 'react-loading-skeleton';
 
 export default function Photos( { photos } ) {
     return (
-        <div className="photos-container">
-            <div className="photos-container-inside">
+        <div className="h-16 border-t border-gray-primary mt-12 pt-4">
+            <div className="grid grid-cols-3 gap-8 mt-4 mb-12">
                 {!photos
                 ? new Array(12).fill(0).map((_,i) => <Skeleton key={i} width={320} height={400}/>)
                 : photos.length > 0 ? photos.map( (photo) => (
@@ -47,7 +47,7 @@ export default function Photos( { photos } ) {
             ))
                 : null}
             </div>
-            {!photos || (photos.length === 0 && <p className="no-photos-text">No Posts Yet</p>)}
+            {!photos || (photos.length === 0 && <p className="text-center text-2x1">No Posts Yet</p>)}
         </div>
     )
 }
