@@ -1,4 +1,6 @@
 import uvicorn
+import operator
+import datetime
 import firebase_admin
 import pyrebase
 import json
@@ -59,7 +61,15 @@ app.add_middleware(
 def get_user_posts(user_id):
     doc = db.collection('User').document(user_id).get()
     posts = doc.get("userPosts")
-    return posts
+    all_urls = []
+    for post in posts:
+        #for all posts, retrieve image
+        doc = db.collection("Posts").document(post).get()
+        image = doc.get("img")
+        #get image url
+        url = storage.child(image).get_url(image)
+        all_urls.append(url)
+    return all_urls
 
 #returns a list of user ID's that are friends with given user ID
 def get_user_friends(user_id):
@@ -67,7 +77,23 @@ def get_user_friends(user_id):
     friends = doc.get("friends")
     return friends
 
-#finds all posts meant to be displayed on a given user's home page
+#get time user posted an image
+def get_time_posted(imgID):
+    doc = db.collection("Posts").document(imgID).get()
+    date = doc.get("dateTime")
+    return date
+
+def get_all_reactions(imgID):
+    doc = db.collection("Posts").document(imgID).get()
+    reactions = doc.get("reactions")
+    return reactions
+
+def get_username(user_ID):
+    doc = db.collection("User").document(user_ID).get()
+    username = doc.get("username")
+    return username
+
+#finds all post's links meant to be displayed on a given user's home page
 def get_home_posts(user_id):
     #get all user's posts
     all_posts = get_user_posts(user_id)
@@ -78,18 +104,20 @@ def get_home_posts(user_id):
         friends_posts = get_user_posts(friend)
         #create list of posts to display
         np.concatenate(all_posts, friends_posts)
-    
+    images_dict_list = []
+    #all_images = []
     for post in all_posts:
         #for all posts, retrieve image
         doc = db.collection("Posts").document(post).get()
+        date = doc.get("dateTime")
         image = doc.get("img")
         #get image url
-        url = storage.child(image).get_url()
-        print(url)
-        #sort by date HERE
-        all_images = np.add(doc.get("img"))
-    
-    return all_images
+        url = storage.child(image).get_url(image)
+        img_dict = { "url": url, "date" : date }
+        images_dict_list.append(img_dict)
+    print(images_dict_list)
+    in_order = images_dict_list.sort(key=operator.itemgetter('date'),reverse=True)
+    return in_order
 
 #adds new post to DB
 def new_post(user_id, imgID, image):
@@ -97,9 +125,11 @@ def new_post(user_id, imgID, image):
     storage.child(image).put(image)
     #add image to posts database
     doc = db.collection("Posts").document(imgID)
+    date = datetime.datetime.now()
     doc.set({
         "imgID": imgID,
         "img": image,
+        "dateTime": date,
         "reactions": []
     })
     #add associate to user
@@ -147,6 +177,8 @@ def new_reaction(user_id, imgID, reaction):
 def delete_reaction(user_id, imgID):
     doc_ref = db.collection("Posts").document(imgID)
     doc = doc_ref.get()
+    dict_to_delete = None
+    list_of_dicts = None
     #check if this image exists
     if(doc.exists):
         list_of_dicts = list(doc.to_dict()['reactions'])
@@ -157,7 +189,7 @@ def delete_reaction(user_id, imgID):
            #found user ID, delete this reaction
            dict_to_delete = dictionary
     #if user ID is found, delete the associated reaction.
-    if dict_to_delete:
+    if dict_to_delete is not None:
         db.collection("Posts").document(imgID).update({
         'reactions': firestore.ArrayRemove([dict_to_delete])
         })
@@ -215,9 +247,14 @@ def sort_by_frequency(list_of_dicts):
          ans.extend([j]*i)
    return ans
 
-#get_user_posts("firstID1")
+#print(get_user_posts("firstID1"))
 #new_post("firstID1", "2", "sadditto.jpg")
 #print(top_reactions("2"))
 #new_reaction("firstID1", "2", "green")
+#new_reaction("secondID2", "2", "blue")
 #add_friend("firstID1", "secondID2")
-remove_friend("firstID1", "secondID2")
+#remove_friend("firstID1", "secondID2")
+#print(get_home_posts("firstID1"))
+#get_time_posted("2")
+#print(get_all_reactions("2"))
+#print(get_username("firstID1"))
