@@ -4,9 +4,7 @@ from firebase_admin import firestore
 from firebase_admin import auth
 from firebase_admin import storage
 
-require('dotenv').config()
 
-console.log(process.env)
 cred = credentials.Certificate("../ServiceAccountKey/colors-df7a2-firebase-adminsdk-cz3jt-534bff7918.json")
 firebase_admin.initialize_app(cred, {'storageBucket': 'colors-df7a2.appspot.com'})
 
@@ -253,6 +251,18 @@ def deleteUser(ID):
     else:
         return "ERROR: user does not exist"
     
+
+# def getPosts(ID):
+
+#     user = db.collection(u'User').document(ID)
+#     userDoc = user.get()
+
+#     if userDoc.exists:
+
+#         imgID = userDoc.to_dict()['ID']
+
+#         return db.collection(u'Posts').document(imgID)
+
 
 
 #end of user db functions

@@ -1,5 +1,5 @@
 {
-    "apiKey": process.env.API_KEY,
+    "apiKey":process.env.API_KEY ,
     "authDomain": "colors-df7a2.firebaseapp.com",
     "projectId": "colors-df7a2",
     "storageBucket": "colors-df7a2.appspot.com",
