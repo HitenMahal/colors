@@ -26,7 +26,7 @@ export default function User( {username, fullName} ) {
     )
 }
 
-User.PropTypes = {
+User.propTypes = {
     username: PropTypes.string.isRequired,
     fullName: PropTypes.string.isRequired
 }

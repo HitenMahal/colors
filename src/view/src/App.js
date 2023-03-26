@@ -1,15 +1,25 @@
-import React from 'react'
-import {Routes, Route } from 'react-router-dom'
-
-import Login from './components/Login'
-import Home from './container/Home'
+import { React } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { AuthContextProvider } from './hooks/use-auth-listener';
+import ProtectedRoute from './context/protected-route';
+import Login from './pages/Login'
+import Home from './pages/Home'
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="login" element={<Login />} />
-      <Route path="/*" element={<Home />} />
-    </Routes>
+    <AuthContextProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+            } 
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Router>
+    </AuthContextProvider>
   )
 }
 

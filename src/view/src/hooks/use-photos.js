@@ -8,7 +8,7 @@ export default function usePhotos(user) {
         async function getTimelinePhotos() {
             if (user?.following?.length > 0) {
                 const followedUserPhotos = await getPhotos(user.userId, user.following);
-                followedUserPhotos.sort( (a,b) => b.dateCreated, a.dateCreated);
+                followedUserPhotos.sort( (a,b) => b.dateCreated - a.dateCreated);
                 setPhotos(followedUserPhotos);
             }
         }

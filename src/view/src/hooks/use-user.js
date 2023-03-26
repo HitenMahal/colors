@@ -6,11 +6,12 @@ export default function useUser(userId) {
 
     useEffect( () => {
         async function getUserObjByUserId(userId) {
-            const [user] = await getUserByUserId(userId);
+            const user = await getUserByUserId(userId);
+            console.log("USE_USER=",user.data());
             setActiveUser( user || {} );
         }
         if (userId) {
-            getUserObjByUserId();
+            getUserObjByUserId(userId);
         }
     }, [userId]);
 

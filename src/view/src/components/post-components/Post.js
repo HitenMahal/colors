@@ -6,7 +6,7 @@ import Actions from './actions';
 import Footer from './footer';
 import Comments from './comments';
 
-export default function Card({content}) {
+export default function Post({content}) {
     const commentInput = useRef(null);
     const handleFocus = () => commentInput.current.focus();
   

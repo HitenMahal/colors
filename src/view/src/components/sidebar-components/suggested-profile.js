@@ -33,7 +33,7 @@ export default function SuggestedProfile( {
                 <img
                     className="rounded-full w-8 flex mr-3"
                     src={`/images/avatars/${username}.jpg`}
-                    alt={`${username} profile picture`}
+                    alt={`${username} profile icon`}
                     onError={ (e) => {
                         e.target.src = DEFAULT_IMAGE_PATH;
                     }}
@@ -49,7 +49,7 @@ export default function SuggestedProfile( {
     ) : null;
 }
 
-SuggestedProfile.PropTypes = {
+SuggestedProfile.propTypes = {
     profileDocId: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     profileId: PropTypes.string.isRequired,

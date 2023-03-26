@@ -1,16 +1,19 @@
 import { useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import FirebaseContext from '../context/firebase';
-import UserContext from '../context/user';
+import { Link, useNavigate } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
-import { DEFAULT_IMAGE_PATH } from '../constants/paths';
+import { COLORS_LOGO_PATH, DEFAULT_IMAGE_PATH } from '../constants/paths';
+import { UserAuth } from '../hooks/use-auth-listener';
 import useUser from '../hooks/use-user';
+import LoggedInUserContext from '../context/logged-in-user';
 
 export default function Header() {
-    const { user: loggedInUser } = useContext(UserContext);
+    const { user: loggedInUser } = useContext(LoggedInUserContext);
     const { user } = useUser(loggedInUser?.uid);
-    const { firebase } = useContext(FirebaseContext);
-    const history = useHistory();
+    const { logOut } = UserAuth();
+    const history = useNavigate();
+
+    console.log("HEADER loggedInUser=", loggedInUser);
+    console.log("HEADER User=", user.data());
 
     return (
         <header className="h-16 bg-white border-b border-gray-primary mb-8">
@@ -19,7 +22,7 @@ export default function Header() {
                     <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
                         <h1 className="flex justify-center w-full">
                             <Link to={ROUTES.DASHBOARD} aria-label="logo">
-                                <img src='/images/logo.png' alt="Colors" className="mt-2 w-6/12"/>
+                                <img src={COLORS_LOGO_PATH} alt="Colors" className="mt-2 w-6/12"/>
                             </Link>
                         </h1>
                     </div>
@@ -46,14 +49,10 @@ export default function Header() {
                 <button
                   type="button"
                   title="Sign Out"
-                  onClick={() => {
-                    firebase.auth().signOut();
-                    history.push(ROUTES.LOGIN);
-                  }}
+                  onClick={logOut}
                   onKeyDown={(event) => {
                     if (event.key === 'Enter') {
-                      firebase.auth().signOut();
-                      history.push(ROUTES.LOGIN);
+                      logOut();
                     }
                   }}
                 >

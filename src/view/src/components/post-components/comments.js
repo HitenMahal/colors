@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import UserContext from '../../context/user';
 import PropTypes from 'prop-types';
 import { formatDistance } from 'date-fns';
 import { Link } from 'react-router-dom';
@@ -33,7 +34,7 @@ export default function Comments( {docId, comments: allComments, posted, comment
                 <button 
                 className="text-sm text-gray-base mb-1 cursor-pointer focus:outline-none"
                 type="button"
-                onClick={showNextComments}
+                onClick={showAllComments}
                 onKeyDown={(event) => {if (event.key==='Enter') {showAllComments()}}}>
                     View more comments
                 </button>
