@@ -19,7 +19,7 @@ export default function Post({content}) {
 
     return (
         <div className={colorSummary}>
-        <div className="rounded col-span-4 bg-official-post">
+        <div className="rounded col-span-4 bg-official-post mb-12">
             <Header username={content.username} profilePic={content.profilePic} />
             <Image src={content.imageSrc} caption={content.caption}/>
             <Actions
