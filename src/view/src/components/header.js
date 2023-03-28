@@ -15,13 +15,13 @@ export default function Header() {
     console.log("HEADER User=", userObj);
 
     return (
-        <header className="h-16 bg-white border-b border-gray-primary mb-8">
+        <header className="h-16 bg-official-background border-b border-gray-primary mb-8">
             <div className="container mx-auto max-w-screen-lg h-full">
                 <div className="flex justify-between h-full">
                     <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
                         <h1 className="flex justify-center w-full">
                             <Link to={ROUTES.DASHBOARD} aria-label="logo">
-                                <img src={COLORS_LOGO_PATH} alt="Colors" className="mt-2 w-6/12"/>
+                                <img src={COLORS_LOGO_PATH} alt="Colors" className="w-1/4"/>
                             </Link>
                         </h1>
                     </div>
@@ -34,7 +34,7 @@ export default function Header() {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
+                    stroke="white"
                   >
                     <path
                       strokeLinecap="round"
@@ -60,7 +60,7 @@ export default function Header() {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
+                    stroke="white"
                   >
                     <path
                       strokeLinecap="round"

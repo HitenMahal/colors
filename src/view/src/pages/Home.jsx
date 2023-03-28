@@ -20,9 +20,9 @@ export default function Home() {
 
   return (
     <LoggedInUserContext.Provider value={{userAuth, userObj, setActiveUser}}>
-      <div className='bg-gray-background'>
+      <div className='bg-official-background'>
         <Header />
-        <div className='grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg'>
+        <div className='grid grid-cols-3 gap-6 justify-between mx-auto max-w-screen-lg'>
           <Timeline />
           <Sidebar />
         </div>
