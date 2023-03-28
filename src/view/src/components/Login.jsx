@@ -1,12 +1,13 @@
 import React from 'react'
 import GoogleLogin  from 'react-google-login'
 import { FcGoogle } from 'react-icons/fc'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import video from '../assets/ink.mp4'
 // import logo from '../assets/colors.png'
 import logo2 from '../assets/image.png'
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     // Div to store the video that's running in the background
     <div className='flex justify-start items-center flex-col h-screen'>
@@ -27,13 +28,13 @@ const Login = () => {
           </div>
 
           <div className="shadow-2xl">
+            {/** This is where you have to int */}
             <GoogleLogin
               render={(renderProps) => (
                 <button
                   type="button"
                   className="bg-mainColor flex justify-center items-center p-4 rounded-lg cursor-pointer outline-none font-bold font-mono"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
+                  onClick={() => navigate('/home')}
                 >
                   <FcGoogle className="mr-4" /> Sign In / Sign Up
                 </button>
