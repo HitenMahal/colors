@@ -50,18 +50,6 @@ const Login = () => {
           </div>
 
           <div className="shadow-2xl">
-            {/* <GoogleLogin
-              render={(renderProps) => (
-                <button
-                  type="button"
-                  className="bg-mainColor flex justify-center items-center p-4 rounded-lg cursor-pointer outline-none font-bold font-mono"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
-                  <FcGoogle className="mr-4" /> Sign In / Sign Up
-                </button>
-              )}
-            /> */}
                       {error && <p className="mb-4 text-xs text-red-primary">{error}</p>}
 
             <form onSubmit={handleLogin} method="POST">
@@ -69,7 +57,7 @@ const Login = () => {
                 aria-label="Enter your email address"
                 type="text"
                 placeholder="Email address"
-                className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
+                className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2 font-mono font-bold"
                 onChange={({ target }) => setEmailAddress(target.value)}
                 value={emailAddress}
               />
@@ -77,18 +65,27 @@ const Login = () => {
                 aria-label="Enter your password"
                 type="password"
                 placeholder="Password"
-                className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
+                className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2 font-mono font-bold"
                 onChange={({ target }) => setPassword(target.value)}
                 value={password}
               />
-              <button
-                disabled={isInvalid}
-                type="submit"
-                className={`bg-blue-medium text-white w-full rounded h-8 font-bold
-              ${isInvalid && 'opacity-50'}`}
-              >
-                Login
-              </button>
+              <div className='flex space-x-4'>
+                <button
+                  disabled={isInvalid}
+                  type="submit"
+                  className={`bg-blue-medium text-white w-full rounded h-8 font-bold font-mono
+                ${isInvalid && 'opacity-50'}`}
+                >
+                  Login
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-medium text-white w-full rounded h-8 font-bold font-mono"
+                  onClick={ () => history('/register')}
+                >
+                  Register
+                </button>
+              </div>
             </form>
           </div>
         </div>
