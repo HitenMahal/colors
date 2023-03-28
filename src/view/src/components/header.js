@@ -7,13 +7,12 @@ import useUser from '../hooks/use-user';
 import LoggedInUserContext from '../context/logged-in-user';
 
 export default function Header() {
-    const { user: loggedInUser } = useContext(LoggedInUserContext);
-    const { user } = useUser(loggedInUser?.uid);
+    const { userAuth, userObj } = useContext(LoggedInUserContext);
     const { logOut } = UserAuth();
     const history = useNavigate();
 
-    console.log("HEADER loggedInUser=", loggedInUser);
-    console.log("HEADER User=", user.data());
+    console.log("HEADER loggedInUser=", userAuth.uid);
+    console.log("HEADER User=", userObj);
 
     return (
         <header className="h-16 bg-white border-b border-gray-primary mb-8">
@@ -27,7 +26,7 @@ export default function Header() {
                         </h1>
                     </div>
                     <div className="text-gray-700 text-center flex items-center align-items">
-                        {loggedInUser ? (
+                        {userAuth ? (
               <>
                 <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
                   <svg
@@ -71,13 +70,13 @@ export default function Header() {
                     />
                   </svg>
                 </button>
-                {user && (
+                {userObj && (
                   <div className="flex items-center cursor-pointer">
-                    <Link to={`/p/${user?.username}`}>
+                    <Link to={`/p/${userObj?.username}`}>
                       <img
                         className="rounded-full h-8 w-8 flex"
-                        src={`/images/avatars/${user?.username}.jpg`}
-                        alt={`${user?.username} profile`}
+                        src={`/images/avatars/${userObj?.username}.jpg`}
+                        alt={`${userObj?.username} profile`}
                         onError={(e) => {
                           e.target.src = DEFAULT_IMAGE_PATH;
                         }}

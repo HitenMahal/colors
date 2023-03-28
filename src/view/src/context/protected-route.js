@@ -3,8 +3,8 @@ import { Navigate } from 'react-router-dom';
 import { UserAuth } from '../hooks/use-auth-listener';
 
 export default function ProtectedRoute( {children} ) {
-    const { user } = UserAuth();
-    console.log("Redirect: User=",user ? user.email : "null");
+    const { userAuth } = UserAuth();
+    console.log("Redirect: User=",userAuth ? userAuth.email : "null");
     
-    return user ? React.cloneElement(children, {user}) : <Navigate to="/login" />;
+    return userAuth ? React.cloneElement(children) : <Navigate to="/login" />;
 }

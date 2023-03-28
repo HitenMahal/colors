@@ -4,6 +4,7 @@ import { AuthContextProvider } from './hooks/use-auth-listener';
 import ProtectedRoute from './context/protected-route';
 import Login from './pages/Login'
 import Home from './pages/Home'
+import Register from './pages/Register';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
             } 
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
     </AuthContextProvider>

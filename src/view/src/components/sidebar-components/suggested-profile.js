@@ -10,22 +10,25 @@ import LoggedInUserContext from '../../context/logged-in-user';
 import { DEFAULT_IMAGE_PATH } from '../../constants/paths';
 
 export default function SuggestedProfile( {
-    profileDocId,
     username,
-    profileId,
-    userId,
-    loggedInUserDocId
+    userId
 }) {
     const [followed, setFollowed] = useState(false);
-    const { setActiveUser } = useContext(LoggedInUserContext);
+    const { userObj ,setActiveUser } = useContext(LoggedInUserContext);
 
-    async function handleFollowUser() {
+    console.log("SUGGESTED_PROFILE userObj = ", userObj.userId, userId);
+
+    const handleFollowUser = async () => {
+        console.log("Follow Button clicked");
         setFollowed(true);
-        await updateLoggedInUserFollowing(loggedInUserDocId, profileId, false);
-        await updateFollowedUserFollowers(profileDocId, userId, false);
-        const [user] = await getUserByUserId(userId);
-        setActiveUser(user);
+        const x = await updateLoggedInUserFollowing( userObj.userId, userId, false);
+        const y = await updateFollowedUserFollowers( userObj.userId, userId, false);
+        // const [user] = await getUserByUserId(userId);
+        console.log("HANDLE FOLLOW_USER",x,y);
+        setActiveUser( userObj );
     }
+
+    console.log("Sidebar - SUGGESTED PROFILE");
 
     return !followed ? (
         <div className="flex flex-row items-center align-items justify-between">
@@ -50,9 +53,6 @@ export default function SuggestedProfile( {
 }
 
 SuggestedProfile.propTypes = {
-    profileDocId: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
-    profileId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
-    loggedInUserDocId: PropTypes.string.isRequired
 };  

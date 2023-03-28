@@ -5,21 +5,13 @@ import LoggedInUserContext from '../../context/logged-in-user';
 
 export default function Sidebar() {
 
-    console.log("Sidebar=",LoggedInUserContext);
+    console.log("Sidebar useContext(loggedin)=", useContext(LoggedInUserContext));
+    const { userObj } = useContext(LoggedInUserContext);
 
-    const { 
-        user: {
-            docId='', 
-            fullName, 
-            username, 
-            userId, 
-            following} = {} 
-        } = useContext(LoggedInUserContext);
-
-        return (
-            <div className="p-4">
-                <User username={username} fullName={fullName}/>
-                <Suggestions userId={userId} following={following} loggedInUserId={docId}/>
-            </div>
-        )
+    return (
+        <div className="p-4">
+            <User username={ userObj?.username} />
+            <Suggestions userId={ userObj?.userId} following={ userObj?.following } />
+        </div>
+    )
 }

@@ -1,18 +1,16 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import UserContext from '../../context/user';
+import { UserAuth } from '../../hooks/use-auth-listener';
 
-export default function Actions( {docId, totalLikes, likedPhoto, handleFocus}) {
-    const {
-        user: {uid: userId}
-    } = useContext(UserContext);
+export default function Actions( { totalLikes, likedPhoto, handleFocus}) {
+    const { userAuth } = UserAuth();
 
     const [toggleLiked, setToggleLiked] = useState(likedPhoto);
     const [likes, setLikes] = useState(totalLikes);
 
     const handleToggleLiked = async() => {
         setToggleLiked((toggleLiked) => !toggleLiked);
-
+        // firebase toggle like
         setLikes((likes) => (toggleLiked ? likes-1 : likes+1));
     }
 
