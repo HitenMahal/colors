@@ -16,7 +16,7 @@ export default function Actions( { totalLikes, likedPhoto, handleFocus}) {
 
     return (
         <>
-          <div className="flex justify-between p-4">
+          <div className="flex justify-between p-4 pl-2 pt-2">
             <div className="flex">
               <svg
                 onClick={handleToggleLiked}
@@ -28,7 +28,7 @@ export default function Actions( { totalLikes, likedPhoto, handleFocus}) {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
+                stroke="#E7E9FF"
                 tabIndex={0}
                 className={`w-8 mr-4 select-none cursor-pointer focus:outline-none ${
                   toggleLiked ? 'fill-red text-red-primary' : 'text-black-light'
@@ -52,7 +52,7 @@ export default function Actions( { totalLikes, likedPhoto, handleFocus}) {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor"
+                stroke="#E7E9FF"
                 tabIndex={0}
               >
                 <path
@@ -64,8 +64,8 @@ export default function Actions( { totalLikes, likedPhoto, handleFocus}) {
               </svg>
             </div>
           </div>
-          <div className="p-4 py-0">
-            <p className="font-bold">{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
+          <div className="p-4 py-0 pl-3">
+            <p className="font-bold text-[#E7E9FF]">{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
           </div>
         </>
       );
