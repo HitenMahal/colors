@@ -21,13 +21,14 @@ export default function Post({content}) {
     console.log("POST downloadURL = ", content, content.imageSrc);
 
     return (
-        <div className="rounded col-span-4 bg-official-post mb-12">
+        <div className="place-content-center mb-12 m-auto p-4 bg-r1e">
+        <div className="rounded col-span-4 bg-official-post">
             <Header username={content.username} profilePic={content.profilePic} />
             <Image src={content.imageSrc} caption={content.caption}/>
             <Actions
                 docId={content.docId}
                 totalLikes={content.likes.length}
-                likedPhoto={content.userLikedPhoto}
+                userReaction={content.userReaction}
                 handleFocus={handleFocus}
             />
             <Footer caption={content.caption} username={content.username} />
@@ -37,6 +38,7 @@ export default function Post({content}) {
                 posted={content.dateCreated}
                 commentInput={commentInput}
             /> */}
+        </div>
         </div>
     );
 }

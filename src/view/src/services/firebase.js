@@ -1,5 +1,5 @@
 import { firebase, db, storage } from './firebase-config';
-import { collection, doc, getDoc, setDoc, query, where, getDocs, limit, updateDoc, arrayUnion, arrayRemove, or } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, query, where, getDocs, limit, updateDoc, arrayUnion, arrayRemove, or, deleteField } from 'firebase/firestore';
 import { ref, getDownloadURL, uploadBytes} from "firebase/storage";
 import { updateProfile } from 'firebase/auth';
 
@@ -30,9 +30,9 @@ export async function uploadUserPicture( auth, image) {
 
 export async function createPost( uid, username, caption, img) {
   const timenow = Date.now();
-  const id = "profile/" + uid + timenow;
+  const id =  uid + timenow;
   // Upload Picture
-  const imgRef = ref(storage, id);
+  const imgRef = ref(storage, "profiles/" + id);
   const upload = await uploadBytes(imgRef, img);
   // Get Download Link
   const downloadLink = await getDownloadURL( imgRef )
@@ -118,17 +118,100 @@ export async function getPhotos(userId, following) {
   
     const photosWithUserDetails = await Promise.all(
       userFollowedPhotos.map(async (photo) => {
-        let userLikedPhoto = false;
-        if (photo.likes.includes(userId)) {
-          userLikedPhoto = true;
+        let userReaction = 0;
+        console.log("GET_PHOTOS photo.reaction = ",photo.reactions, userId, photo.reactions?.hasOwnProperty(userId));
+        if (photo.reactions?.hasOwnProperty(userId)) {
+          userReaction = photo.reactions[userId];
+          console.log("USER ALREADY HAS REACTION = ", userReaction);
+        }
+        if ( photo?.reactions && Object.keys(photo?.reactions).length > 0) {
+          const colorSummary = calculateColorSummary(photo.reactions);
         }
         // jac
         const { username } = photo.username;
-        return { username, ...photo, userLikedPhoto };
+        return { username, ...photo, userReaction };
       })
     );
   
     return photosWithUserDetails;
+}
+
+export function calculateColorSummary(reactions) {
+  console.log("CALCULATE COLOR SUMMARY reactions = ", reactions);
+  let summary = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0
+  }
+  for (var r in reactions) {
+    console.log("CALCULATE COLOR SUMMARY r = ", r);
+    if (Object.prototype.hasOwnProperty.call(reactions, r)) {
+        summary[ reactions[r] ] += 1;
+        console.log("CALCULATE COLOR SUMMARY summary[r]++ = ", reactions[r], summary[r], summary);
+    }
+  }
+  var res = getThreeLargestKeys(summary);
+
+  let colorSumRes = "";
+  // Empty
+  if (summary[res[0]] === 0) {
+    colorSumRes = "place-content-center mb-12 m-auto p-4 bg-gradient-to-br from-r" + 0 + "s to-r" + + "e";
+  }
+  // One color
+  else if (summary[res[1]] === 0) {
+
+  }
+  // 2 Color
+  else if (summary[res[2]] === 0) {
+
+  }
+  else {
+
+  }
+
+  // for (let key in summary){
+  //  res[3] = summary[key];
+  //  res.sort(function(a,b){return b-a});
+  // }
+  // res.pop();
+  
+  console.log("CALCULATE COLOR SUMMARY = ", res);
+  return 1;
+}
+
+function getThreeLargestKeys(obj){
+  var k1, k2, k3;
+  var v1, v2, v3;
+  v1 = v2 = v3 = -Infinity;
+
+  // O(1)
+  var insertKey = function(key){
+      var value = obj[key];  // note 1
+
+      // note 2
+      if(value >= v1){
+          v3 = v2; v2 = v1; v1 = value;
+          k3 = k2; k2 = k1; k1 = key;
+      }else if(value >= v2){
+          v3 = v2; v2 = value;
+          k3 = k2; k2 = key;
+      }else if(value >= v3){
+          v3 = value;
+          k3 = key;
+      }
+  };
+
+  // O(n)
+  for(var key in obj){
+      // note 3
+      insertKey(key);
+  }
+
+  return [k1, k2, k3];
 }
 
 // export async function getPhotoURL(photoName) {
@@ -176,4 +259,11 @@ export async function toggleFollow(
   // 2nd param: raphael's doc id
   // 3rd param: is the user following this profile? e.g. does karl follow raphael? (true/false)
   await updateFollowedUserFollowers(activeUserDocId, profileUserId, isFollowingProfile);
+}
+
+export async function toggleReaction( reaction, wantsToReact, docId, uid) {
+  console.log("TOGGLE_REACTION", reaction, wantsToReact, docId, uid);
+  return updateDoc( doc(db, "Posts", docId), {
+      [`reactions.${uid}`]: wantsToReact ? reaction : deleteField()
+  }, { merge: true });
 }

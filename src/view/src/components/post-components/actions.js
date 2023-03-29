@@ -1,68 +1,63 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { UserAuth } from '../../hooks/use-auth-listener';
+import { toggleReaction } from '../../services/firebase';
 
-export default function Actions( { totalLikes, likedPhoto, handleFocus}) {
+export default function Actions( { totalLikes, userReaction, docId}) {
     const { userAuth } = UserAuth();
 
-    const [toggleLiked, setToggleLiked] = useState(likedPhoto);
+    const [toggleLiked, setToggleLiked] = useState(userReaction > 0 ? true : false);
     const [likes, setLikes] = useState(totalLikes);
+    const [currReaction, setCurrentReaction] = useState();
 
-    const handleToggleLiked = async() => {
-        setToggleLiked((toggleLiked) => !toggleLiked);
-        // firebase toggle like
-        setLikes((likes) => (toggleLiked ? likes-1 : likes+1));
+    const handleReaction = (r) => {
+      console.log("REACTED");
+      setCurrentReaction(r);
+      toggleReaction(r, !toggleLiked, docId, userAuth.uid); // Firebase Toggle
+      setToggleLiked(!toggleLiked);
+      setLikes((likes) => (toggleLiked ? likes-1 : likes+1));
+    }
+
+    useEffect( () => {
+      if ( userReaction > 0 ) {
+        setCurrentReaction(userReaction);
+      }
+    }, [userReaction])
+
+    useEffect( () => {
+      if (!toggleLiked) {
+        setCurrentReaction(undefined);
+      }
+    }, [toggleLiked])
+
+    console.log("toggleLiked, CurrReaction", toggleLiked, currReaction);
+
+    const colorVarients = {
+      1: 'rounded-full h-8 w-8 bg-r1e',
+      2: 'rounded-full h-8 w-8 bg-r2e',
+      3: 'rounded-full h-8 w-8 bg-r3e',
+      4: 'rounded-full h-8 w-8 bg-r4e',
+      5: 'rounded-full h-8 w-8 bg-r5e',
+      6: 'rounded-full h-8 w-8 bg-r6e',
+      7: 'rounded-full h-8 w-8 bg-r7e',
     }
 
     return (
         <>
-          <div className="flex justify-between p-4 pl-2 pt-2">
-            <div className="flex">
-              <svg
-                onClick={handleToggleLiked}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    handleToggleLiked();
-                  }
-                }}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#E7E9FF"
-                tabIndex={0}
-                className={`w-8 mr-4 select-none cursor-pointer focus:outline-none ${
-                  toggleLiked ? 'fill-red text-red-primary' : 'text-black-light'
-                }`}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
-              <svg
-                onClick={handleFocus}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    handleFocus();
-                  }
-                }}
-                className="w-8 text-black-light select-none cursor-pointer focus:outline-none"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#E7E9FF"
-                tabIndex={0}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                />
-              </svg>
-            </div>
+          <div className="flex justify-around p-4 pl-2 pt-2 mx-20 transition-all">
+            { currReaction ? (<a className={`${colorVarients[currReaction]}`} onClick={ () => {handleReaction(undefined)}}/>)
+              : (
+                <>
+                <a className="rounded-full h-8 w-8 bg-gradient-to-br from-r1s to-r1e" onClick={ () => {handleReaction(1)}}/>
+                <a className="rounded-full h-8 w-8 bg-gradient-to-br from-r2s to-r2e" onClick={ () => {handleReaction(2)}}/>
+                <a className="rounded-full h-8 w-8 bg-gradient-to-br from-r3s to-r3e" onClick={ () => {handleReaction(3)}}/>
+                <a className="rounded-full h-8 w-8 bg-gradient-to-br from-r4s to-r4e" onClick={ () => {handleReaction(4)}}/>
+                <a className="rounded-full h-8 w-8 bg-gradient-to-br from-r5s to-r5e" onClick={ () => {handleReaction(5)}}/>
+                <a className="rounded-full h-8 w-8 bg-gradient-to-br from-r6s to-r6e" onClick={ () => {handleReaction(6)}}/>
+                <a className="rounded-full h-8 w-8 bg-gradient-to-br from-r7s to-r7e" onClick={ () => {handleReaction(7)}}/>
+                </>
+              )
+            }
           </div>
           <div className="p-4 py-0 pl-3">
             <p className="font-bold text-[#E7E9FF]">{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
@@ -74,6 +69,4 @@ export default function Actions( { totalLikes, likedPhoto, handleFocus}) {
 Actions.propTypes = {
     docId: PropTypes.string.isRequired,
     totalLikes: PropTypes.number.isRequired,
-    likedPhoto: PropTypes.bool.isRequired,
-    handleFocus: PropTypes.func.isRequired  
 }

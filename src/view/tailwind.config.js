@@ -120,7 +120,28 @@ module.exports = {
         background: '#14141f',
         text: '#E7E9FF',
         post: '#2C2F52'
-      }
+      },
+      // Red
+      r1s: '#f59898',
+      r1e: '#edb2b2',
+      // Orange
+      r2s: '#f2b072',
+      r2e: '#edbc8e',
+      // Yellow
+      r3s: '#eddc6f',
+      r3e: '#f5e898',
+      // Green
+      r4s: '#b9de73',
+      r4e: '#d4f598',
+      // Blue
+      r5s: '#97d6f0',
+      r5e: '#b2dced',
+      // Pink
+      r6s: '#e099c6',
+      r6e: '#f2c7e2',
+      // Black
+      r7s: '#272829',
+      r7e: '#46484a',
     }
   },
   variants: {
