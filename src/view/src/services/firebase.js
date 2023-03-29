@@ -28,6 +28,27 @@ export async function uploadUserPicture( auth, image) {
   return await setDoc( doc(db, "User", auth.currentUser.uid), {profilePic: downloadLink}, { merge: true });
 }
 
+export async function createPost( uid, username, caption, img) {
+  const timenow = Date.now();
+  const id = "profile/" + uid + timenow;
+  // Upload Picture
+  const imgRef = ref(storage, id);
+  const upload = await uploadBytes(imgRef, img);
+  // Get Download Link
+  const downloadLink = await getDownloadURL( imgRef )
+  // Make data
+  const data = {
+    caption: caption,
+    dateCreated: timenow,
+    imageSrc: downloadLink,
+    likes: [],
+    userId: uid,
+    username: username
+  }
+  // Update Profile Picture
+  return await setDoc( doc(db, "Posts", id), data, { merge: true });
+}
+
 export async function doesUsernameOrEmailExist(username, email) {
   const result = await getDocs( query( collection(db, "User"), or(  where("username","==", username), where("email","==",email)  )   ));
   console.log("DOES USERNAME EXIST Result=",result);
@@ -110,12 +131,12 @@ export async function getPhotos(userId, following) {
     return photosWithUserDetails;
 }
 
-export async function getPhotoURL(photoName) {
-  await getDownloadURL( ref(storage, photoName) ).then( (url) => {
-    console.log("Get_Photo_URL got ", url);
-    return url;
-  });
-}
+// export async function getPhotoURL(photoName) {
+//   await getDownloadURL( ref(storage, photoName) ).then( (url) => {
+//     console.log("Get_Photo_URL got ", url);
+//     return url;
+//   });
+// }
 
 export async function getUserByUsername(username) {
   console.log("GET_USER_BY_USERNAME username = ", username);

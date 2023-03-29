@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
+import NewPost from './pages/NewPost';
 
 const App = () => {
   return (
@@ -16,6 +17,12 @@ const App = () => {
           <Route path="/" element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+            } 
+          />
+          <Route path="/post" element={
+            <ProtectedRoute>
+              <NewPost />
             </ProtectedRoute>
             } 
           />

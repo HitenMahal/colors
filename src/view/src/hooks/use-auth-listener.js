@@ -23,7 +23,6 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     const register = (username, password, email, image) => {
-
         createUserWithEmailAndPassword(auth, email, password).then( (newUser) => {
             console.log("REGISTER NEWUSER=", newUser);
             createUserProfile(newUser.user.uid, username, email);
