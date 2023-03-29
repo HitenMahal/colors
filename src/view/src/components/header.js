@@ -7,11 +7,11 @@ import useUser from '../hooks/use-user';
 import LoggedInUserContext from '../context/logged-in-user';
 
 export default function Header() {
-    const { userAuth, userObj } = useContext(LoggedInUserContext);
+    const { userAuth, userObj } = useContext(LoggedInUserContext) || {};
     const { logOut } = UserAuth();
     const history = useNavigate();
 
-    console.log("HEADER loggedInUser=", userAuth.uid);
+    console.log("HEADER loggedInUser=", userAuth?.uid);
     console.log("HEADER User=", userObj);
 
     return (
@@ -75,7 +75,7 @@ export default function Header() {
                     <Link to={`/p/${userObj?.username}`}>
                       <img
                         className="rounded-full h-8 w-8 flex"
-                        src={`/images/avatars/${userObj?.username}.jpg`}
+                        src={userObj.profilePic ? userObj.profilePic : '/'}
                         alt={`${userObj?.username} profile`}
                         onError={(e) => {
                           e.target.src = DEFAULT_IMAGE_PATH;

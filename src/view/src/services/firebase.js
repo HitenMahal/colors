@@ -1,6 +1,7 @@
 import { firebase, db, storage } from './firebase-config';
-import { collection, doc, getDoc, setDoc, query, where, getDocs, limit, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
-import { ref, getDownloadURL} from "firebase/storage";
+import { collection, doc, getDoc, setDoc, query, where, getDocs, limit, updateDoc, arrayUnion, arrayRemove, or } from 'firebase/firestore';
+import { ref, getDownloadURL, uploadBytes} from "firebase/storage";
+import { updateProfile } from 'firebase/auth';
 
 export async function createUserProfile(userId, username, email) {
   console.log(userId, username, email);
@@ -15,8 +16,20 @@ export async function createUserProfile(userId, username, email) {
   return await setDoc( doc(db, "User", userId), userData, { merge: true });
 }
 
-export async function doesUsernameExist(username) {
-  const result = await getDocs( query( collection(db, "User"), where("username","==", username)));
+export async function uploadUserPicture( auth, image) {
+  // Upload Picture
+  const imgRef = ref(storage, "profile/" + auth.currentUser.uid);
+  const upload = await uploadBytes(imgRef, image);
+  console.log("UPLOAD_USER_PIC upload =",upload);
+  // Get Download Link
+  const downloadLink = await getDownloadURL( imgRef )
+  console.log("UPLOAD_USER_PIC auth", auth, downloadLink);
+  // Update Profile Picture
+  return await setDoc( doc(db, "User", auth.currentUser.uid), {profilePic: downloadLink}, { merge: true });
+}
+
+export async function doesUsernameOrEmailExist(username, email) {
+  const result = await getDocs( query( collection(db, "User"), or(  where("username","==", username), where("email","==",email)  )   ));
   console.log("DOES USERNAME EXIST Result=",result);
   if (result.docs.length === 0) {
     return false;
@@ -102,4 +115,44 @@ export async function getPhotoURL(photoName) {
     console.log("Get_Photo_URL got ", url);
     return url;
   });
+}
+
+export async function getUserByUsername(username) {
+  console.log("GET_USER_BY_USERNAME username = ", username);
+  let result = await getDocs( query( collection(db, "User"), where("username","==", username)));
+  console.log("GET_USER_BY_USERNAME result=",result.docs[0].data());
+  return result.docs[0].data();
+}
+
+// export async function isUserFollowingProfile(userId, profileUserId) {
+//   const result = getDocs( query( collection(db, "User"), where("username", "==", )) );
+//   const result = await firebase
+//     .firestore()
+//     .collection('users')
+//     .where('username', '==', loggedInUserUsername) // karl (active logged in user)
+//     .where('following', 'array-contains', profileUserId)
+//     .get();
+
+//   const [response = {}] = result.docs.map((item) => ({
+//     ...item.data(),
+//     docId: item.id
+//   }));
+
+//   return response.userId;
+// }
+
+export async function toggleFollow(
+  isFollowingProfile,
+  activeUserDocId,
+  profileUserId,
+) {
+  // 1st param: karl's doc id
+  // 2nd param: raphael's user id
+  // 3rd param: is the user following this profile? e.g. does karl follow raphael? (true/false)
+  await updateLoggedInUserFollowing(activeUserDocId, profileUserId, isFollowingProfile);
+
+  // 1st param: karl's user id
+  // 2nd param: raphael's doc id
+  // 3rd param: is the user following this profile? e.g. does karl follow raphael? (true/false)
+  await updateFollowedUserFollowers(activeUserDocId, profileUserId, isFollowingProfile);
 }

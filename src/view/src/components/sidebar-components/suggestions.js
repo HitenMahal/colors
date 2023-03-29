@@ -31,6 +31,7 @@ export default function Suggestions( {userId, following} ) {
                         key={profile.data().userId}
                         username={profile.data().username}
                         userId={profile.data().userId}
+                        profilePic={profile.data().profilePic}
                     />
                 ))}
             </div>
