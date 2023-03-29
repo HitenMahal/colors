@@ -11,7 +11,8 @@ import { DEFAULT_IMAGE_PATH } from '../../constants/paths';
 
 export default function SuggestedProfile( {
     username,
-    userId
+    userId,
+    profilePic
 }) {
     const [followed, setFollowed] = useState(false);
     const { userObj ,setActiveUser } = useContext(LoggedInUserContext);
@@ -35,7 +36,7 @@ export default function SuggestedProfile( {
             <div className="flex items-center justify-between">
                 <img
                     className="rounded-full w-8 flex mr-3 drop-shadow-lg"
-                    src={`/images/avatars/${username}.jpg`}
+                    src={profilePic ? profilePic : '/'}
                     alt={`${username} profile icon`}
                     onError={ (e) => {
                         e.target.src = DEFAULT_IMAGE_PATH;

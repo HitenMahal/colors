@@ -5,6 +5,9 @@ import ProtectedRoute from './context/protected-route';
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Register from './pages/Register';
+import NotFound from './pages/NotFound';
+import Profile from './pages/Profile';
+import NewPost from './pages/NewPost';
 
 const App = () => {
   return (
@@ -17,8 +20,16 @@ const App = () => {
             </ProtectedRoute>
             } 
           />
+          <Route path="/post" element={
+            <ProtectedRoute>
+              <NewPost />
+            </ProtectedRoute>
+            } 
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/p/:username" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </AuthContextProvider>
