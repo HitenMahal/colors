@@ -105,7 +105,8 @@ module.exports = {
       },
       black: {
         light: '#262626',
-        faded: '#00000059'
+        faded: '#00000059',
+        pure: '#000000'
       },
       gray: {
         base: '#616161',
@@ -114,6 +115,11 @@ module.exports = {
       },
       red: {
         primary: '#ed4956'
+      },
+      official: {
+        background: '#14141f',
+        text: '#E7E9FF',
+        post: '#2C2F52'
       }
     }
   },

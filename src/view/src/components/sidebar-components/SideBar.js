@@ -9,7 +9,7 @@ export default function Sidebar() {
     const { userObj } = useContext(LoggedInUserContext);
 
     return (
-        <div className="p-4">
+        <div className="p-3 bg-official-post rounded-lg drop-shadow-lg">
             <User username={ userObj?.username} />
             <Suggestions userId={ userObj?.userId} following={ userObj?.following } />
         </div>
