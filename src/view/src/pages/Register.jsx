@@ -6,6 +6,7 @@ import { COLORS_BANNER_PATH, COLORS_LOGO_PATH, COLORS_REGISTER_PATH} from '../co
 import { DEFAULT_IMAGE_PATH } from '../constants/paths';
 
 const Register = () => {
+
     const history = useNavigate();
     const { register } = UserAuth();
     
@@ -79,6 +80,7 @@ const Register = () => {
             muted
             autoPlay
             className='w-full h-full object-cover'
+            id="register-bckgrnd-vid"
         />
 
         <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0 bg-blackOverlay">
