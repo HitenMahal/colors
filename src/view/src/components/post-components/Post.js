@@ -21,7 +21,7 @@ export default function Post({content}) {
     console.log("POST downloadURL = ", content, content.imageSrc);
 
     return (
-        <div className="rounded col-span-4 bg-official-post mb-12">
+        <div className="rounded-lg col-span-4 bg-official-post mb-12 drop-shadow-lg">
             <Header username={content.username}/>
             <Image src={content.imageSrc} caption={content.caption}/>
             <Actions

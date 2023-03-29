@@ -34,7 +34,7 @@ export default function SuggestedProfile( {
         <div className="flex flex-row items-center align-items justify-between">
             <div className="flex items-center justify-between">
                 <img
-                    className="rounded-full w-8 flex mr-3"
+                    className="rounded-full w-8 flex mr-3 drop-shadow-lg"
                     src={`/images/avatars/${username}.jpg`}
                     alt={`${username} profile icon`}
                     onError={ (e) => {
@@ -42,10 +42,10 @@ export default function SuggestedProfile( {
                     }}
                 />
                 <Link to={`/p/${username}`}>
-                    <p className="font-bold text-sm">{username}</p>
+                    <p className="font-bold text-sm text-black-true">{username}</p>
                 </Link>
             </div>
-            <button className="text-xs font-bold text-blue-medium" type="button" onClick={handleFollowUser}>
+            <button className="text-sm font-bold text-official-text" type="button" onClick={handleFollowUser}>
                 Follow
             </button>
         </div>

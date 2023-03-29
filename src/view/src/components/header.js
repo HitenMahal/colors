@@ -15,7 +15,7 @@ export default function Header() {
     console.log("HEADER User=", userObj);
 
     return (
-        <header className="h-16 bg-official-background border-b border-gray-primary mb-8">
+        <header className="h-16 bg-official-background mb-8">
             <div className="container mx-auto max-w-screen-lg h-full">
                 <div className="flex justify-between h-full">
                     <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
