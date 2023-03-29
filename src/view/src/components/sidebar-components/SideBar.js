@@ -10,7 +10,7 @@ export default function Sidebar() {
 
     return (
         <div className="p-3 bg-official-post rounded-lg drop-shadow-lg">
-            <User username={ userObj?.username} />
+            <User username={ userObj?.username} profilePic={userObj?.profilePic} />
             <Suggestions userId={ userObj?.userId} following={ userObj?.following } />
         </div>
     )
