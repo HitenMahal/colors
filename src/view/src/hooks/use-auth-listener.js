@@ -6,7 +6,7 @@ import {
     signOut, 
     createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { createUserProfile } from '../services/firebase';
+import { createUserProfile, uploadUserPicture } from '../services/firebase';
 
 const UserContext = createContext(null);
 
@@ -14,6 +14,7 @@ export const AuthContextProvider = ({ children }) => {
     const [userAuth, setUser] = useState(null);
 
     const signIn = (email, password) => {
+        console.log("REAL AUTH CONFIG", auth);
         return signInWithEmailAndPassword(auth, email, password);
     }
 
@@ -21,10 +22,12 @@ export const AuthContextProvider = ({ children }) => {
         return signOut(auth);
     }
 
-    const register = (username, password, email) => {
+    const register = (username, password, email, image) => {
+
         createUserWithEmailAndPassword(auth, email, password).then( (newUser) => {
             console.log("REGISTER NEWUSER=", newUser);
             createUserProfile(newUser.user.uid, username, email);
+            uploadUserPicture(auth, image);
             return newUser;    
         } );
     }

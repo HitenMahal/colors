@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import { DEFAULT_IMAGE_PATH } from '../../constants/paths';
 
-export default function User( {username} ) {
+export default function User( {username, profilePic} ) {
     return !username ? (
         <Skeleton count={1} height={61}/>
     ) : (
@@ -11,8 +11,8 @@ export default function User( {username} ) {
             <div className="flex items-center justify-between col-span-1">
                 <img 
                     className="rounded-full w-16 flex mr-3"
-                    src={`/images/avatars/${username}.jpg`}
-                    alt=""
+                    src={profilePic ? profilePic : "/"}
+                    alt="profilePicture"
                     onError={(e) => {
                         e.target.src = DEFAULT_IMAGE_PATH;
                     }}
