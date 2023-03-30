@@ -35,7 +35,7 @@ export default function SuggestedProfile( {
         <div className="flex flex-row items-center align-items justify-between">
             <div className="flex items-center justify-between">
                 <img
-                    className="rounded-full w-8 flex mr-3 drop-shadow-lg"
+                    className="rounded-full w-8 flex mr-3 text-[#dbe9f4]"
                     src={profilePic ? profilePic : '/'}
                     alt={`${username} profile icon`}
                     onError={ (e) => {
@@ -43,10 +43,10 @@ export default function SuggestedProfile( {
                     }}
                 />
                 <Link to={`/p/${username}`}>
-                    <p className="font-bold text-sm text-black-true">{username}</p>
+                    <p className="font-bold text-sm text-[#dbe9f4]">{username}</p>
                 </Link>
             </div>
-            <button className="text-sm font-bold text-official-text" type="button" onClick={handleFollowUser}>
+            <button className="text-xs font-bold text-official-text" type="button" onClick={handleFollowUser}>
                 Follow
             </button>
         </div>
@@ -56,4 +56,4 @@ export default function SuggestedProfile( {
 SuggestedProfile.propTypes = {
     username: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
-};  
+};

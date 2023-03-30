@@ -5,8 +5,7 @@ import { UserAuth } from "../hooks/use-auth-listener";
 import { COLORS_BANNER_PATH, COLORS_LOGO_PATH, COLORS_REGISTER_PATH} from '../constants/paths';
 import { DEFAULT_IMAGE_PATH } from '../constants/paths';
 
-const Register = () => {
-
+export default function Register() {
     const history = useNavigate();
     const { register } = UserAuth();
     
@@ -139,7 +138,5 @@ const Register = () => {
         </div>
     </div>
     )
-} 
 
-export default Register;
-
+}
