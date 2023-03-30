@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <LoggedInUserContext.Provider value={{userAuth, userObj, setActiveUser}}>
-      <div className='bg-gradient-to-b from-official-background to-official-post h-[128rem]'>
+      <div className='bg-gradient-to-b from-official-background to-official-post min-h-[128rem] max-h-full'>
         <Header />
         <div className='grid grid-cols-3 gap-6 justify-between mx-auto max-w-screen-lg'>
           <Timeline />
