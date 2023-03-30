@@ -4,7 +4,6 @@ import Suggestions from './suggestions';
 import LoggedInUserContext from '../../context/logged-in-user';
 
 export default function Sidebar() {
-
     console.log("Sidebar useContext(loggedin)=", useContext(LoggedInUserContext));
     const { userObj } = useContext(LoggedInUserContext);
 

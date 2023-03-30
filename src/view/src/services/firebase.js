@@ -96,7 +96,7 @@ export async function getUserByUserId(userId) {
 }
   
 export async function getSuggestedProfiles(userId, following) {
-  let result = await getDocs( query( collection(db, "User"), where("userId","not-in", [...following, userId]), limit(6)));
+  let result = await getDocs( query( collection(db, "User"), where("userId","not-in", [...following, userId]), limit(10)));
 
   // const profiles = result.docs.map((user) => ({
   //   ...user.data(),
@@ -130,9 +130,10 @@ export async function getPhotos(userId, following) {
           colorSummary = calculateColorSummary(photo.reactions);
           reactionNum = Object.keys(photo.reactions).length;
         }
+        const profileUser = await getUserByUsername(photo.username);
         // jac
         const { username } = photo.username;
-        return { username, ...photo, userReaction, colorSummary, reactionNum };
+        return { username, ...photo, userReaction, colorSummary, reactionNum, profilePic: profileUser.profilePic };
       })
     );
   
@@ -252,19 +253,19 @@ export async function getUserByUsername(username) {
 // }
 
 export async function toggleFollow(
-  isFollowingProfile,
-  activeUserDocId,
+  userId,
   profileUserId,
+  isFollowingProfile,
 ) {
   // 1st param: karl's doc id
   // 2nd param: raphael's user id
   // 3rd param: is the user following this profile? e.g. does karl follow raphael? (true/false)
-  await updateLoggedInUserFollowing(activeUserDocId, profileUserId, isFollowingProfile);
+  await updateLoggedInUserFollowing(userId, profileUserId, isFollowingProfile);
 
   // 1st param: karl's user id
   // 2nd param: raphael's doc id
   // 3rd param: is the user following this profile? e.g. does karl follow raphael? (true/false)
-  await updateFollowedUserFollowers(activeUserDocId, profileUserId, isFollowingProfile);
+  await updateFollowedUserFollowers(userId, profileUserId, isFollowingProfile);
 }
 
 export async function toggleReaction( reaction, wantsToReact, docId, uid) {

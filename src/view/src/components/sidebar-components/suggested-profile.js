@@ -18,7 +18,7 @@ export default function SuggestedProfile( {
     const { userObj ,setActiveUser } = useContext(LoggedInUserContext);
 
     console.log("SUGGESTED_PROFILE userObj = ", userObj.userId, userId);
-
+    
     const handleFollowUser = async () => {
         console.log("Follow Button clicked");
         setFollowed(true);
