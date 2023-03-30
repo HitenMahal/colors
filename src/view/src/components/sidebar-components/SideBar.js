@@ -9,7 +9,7 @@ export default function Sidebar() {
     const { userObj } = useContext(LoggedInUserContext);
 
     return (
-        <div className="p-3 bg-official-post rounded-lg drop-shadow-lg">
+        <div className="p-3 bg-official-post rounded-lg drop-shadow-lg max-h-[48rem]">
             <User username={ userObj?.username} profilePic={userObj?.profilePic} />
             <Suggestions userId={ userObj?.userId} following={ userObj?.following } />
         </div>

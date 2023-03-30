@@ -4,17 +4,20 @@ import Skeleton from 'react-loading-skeleton';
 export default function Photos( { photos } ) {
   console.log("PROFILE PHOTOS photos prop = ", photos, photos.length);
     return (
-        <div className="h-16 mt-12 pt-4">
-            <div className="grid grid-cols-3 gap-4">
-                {!photos 
+    <div className="h-16 mt-12 pt-4">
+      <div className='flex flex-row flex-wrap gap-4 justify-right pt-4'>
+              {!photos 
                 ? new Array(12).fill(0).map((_,i) => <Skeleton key={i} width={320} height={400}/>)
                 : photos.length > 0 
                 ? photos.map( (photo) => (
-                    <div key={photo.docId} className="photo-tile">
-                        <div>
-                          <img src={photo.imageSrc} alt={photo.caption}/>
-                        </div>
-                        <div className="absolute bottom-0 left-0 bg-gray-200 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex hidden">
+          <div key={photo.docId} className="group h-[300px] w-[300px]">
+                        <div className='relative mx-auto rounded-xl overflow-hidden'>
+                          <img 
+                            className='object-cover h-[300px] w-[300px] opacity-100 hover:opacity-50' 
+                            src={photo.imageSrc} 
+                            alt={photo.caption}
+                          />
+                <div className='flex flex-row gap-4 -translate-y-[10rem] translate-x-[7rem] opacity-0 group-hover:opacity-100 shadow-xl'>
                   <p className="flex items-center text-white font-bold">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -48,11 +51,11 @@ export default function Photos( { photos } ) {
                   </p>
                 </div>
               </div>
-            ))
-                : null}
-            </div>
-            {!photos || (photos.length === 0 && <p className="text-center text-2x1">No Posts Yet</p>)}
-        </div>
+          </div> )) 
+            : null}
+          </div>
+            {!photos || (photos.length === 0 && <p className="text-center text-xl ">No Posts Yet</p>)}
+      </div>
     )
 }
 

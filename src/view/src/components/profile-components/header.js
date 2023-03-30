@@ -64,13 +64,13 @@ export default function Header({
       </div>
       <div className="flex items-center justify-center flex-col col-span-2">
         <div className="container flex items-center">
-          <p className="text-2xl mr-4">{profileUsername}</p>
+          <p className="text-[#E7E9FF] text-lg font-bold mr-4">{profileUsername}</p>
           {activeBtnFollow && isFollowingProfile === null ? (
             <Skeleton count={1} width={80} height={32} />
           ) : (
             activeBtnFollow && (
               <button
-                className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
+                className="bg-official-post font-bold text-sm rounded text-white w-20 h-8"
                 type="button"
                 onClick={handleToggleFollow}
                 onKeyDown={(event) => {
@@ -89,16 +89,16 @@ export default function Header({
             <Skeleton count={1} width={677} height={24} />
           ) : (
             <>
-              <p className="mr-10">
-                <span className="font-bold">{photosCount}</span> photos
+              <p className="mr-10 text-[#E7E9FF]">
+                <span className="font-bold">{photosCount}</span> Photos
               </p>
-              <p className="mr-10">
+              <p className="mr-10 text-[#E7E9FF]">
                 <span className="font-bold">{followerCount}</span>
                 {` `}
-                {followerCount === 1 ? `follower` : `followers`}
+                {followerCount === 1 ? `Follower` : `Followers`}
               </p>
-              <p className="mr-10">
-                <span className="font-bold">{following?.length}</span> following
+              <p className="mr-10 text-[#E7E9FF]">
+                <span className="font-bold">{following?.length}</span> Following
               </p>
             </>
           )}
