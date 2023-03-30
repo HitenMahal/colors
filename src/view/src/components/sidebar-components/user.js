@@ -19,7 +19,7 @@ export default function User( {username, profilePic} ) {
                 />
             </div>
             <div className="col-span-3">
-                <p className="font-bold text-m text-[#dbe9f4] ">{username}</p>
+                <p className="font-bold text-m text-[#dbe9f4]">{username}</p>
             </div>
         </Link>
     )

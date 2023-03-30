@@ -5,15 +5,24 @@ import { COLORS_LOGO_PATH, COLORS_REGISTER_PATH} from '../constants/paths';
 import { DEFAULT_IMAGE_PATH } from '../constants/paths';
 import { createPost } from '../services/firebase';
 import useUser from '../hooks/use-user';
+import Cropper from "react-easy-crop";
+import getCroppedImg from '../services/image-crop';
 
 const NewPost = () => {
     const { userAuth } = UserAuth();
-    const { userObj } = useUser(userAuth.uid);  
+    const { user: userObj } = useUser(userAuth.uid);  
+
+    console.log("UserObj", userObj);
 
     const history = useNavigate();
 
     const [image, setImage] = useState();
     const [preview, setPreview] = useState('');  
+
+    const [zoom, setZoom] = useState(1);
+    const [crop, setCrop] = useState({x: 0, y: 0});
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+    const [cropppedImageUrl, setCroppedImageUrl] = useState(); 
 
     const [caption, setCaption] = useState('');
 
@@ -39,7 +48,24 @@ const NewPost = () => {
         if (e.target.files[0]) {
           setImage(e.target.files[0]);
         }
-      };    
+    };   
+      
+    const onCropChange = (crop) => {
+    setCrop(crop);
+    };
+
+    const onZoomChange = (zoom) => {
+    setZoom(zoom);
+    };
+
+    const onCropComplete = (croppedArea, croppedAreaPixels) => {
+        setCroppedAreaPixels(croppedAreaPixels);
+    };
+
+    const onCrop = async () => {
+        const croppedImageUrl = await getCroppedImg(preview, croppedAreaPixels);
+        setCroppedImageUrl(croppedImageUrl);
+    }
     
     const handlePost = async (e) => {
         e.preventDefault();
@@ -84,6 +110,16 @@ const NewPost = () => {
                             e.target.src = DEFAULT_IMAGE_PATH;
                             }}
                         />
+                        {/* {preview && <><Cropper 
+                            image={preview || DEFAULT_IMAGE_PATH}
+                            zoom={zoom}
+                            crop={crop}
+                            aspect={ 4/3 }
+                            onCropChange={onCropChange}
+                            onZoomChange={onZoomChange}
+                            onCropComplete={onCropComplete}
+                        />
+                        <button onClick={onCrop}>Crop</button></>} */}
                         <input type="file" aria-label="img" className="py-5" onChange={handleImageChange} />
                         <input
                             aria-label="Enter a caption"
@@ -111,4 +147,3 @@ const NewPost = () => {
 } 
 
 export default NewPost;
-
