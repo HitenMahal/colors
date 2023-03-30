@@ -13,21 +13,18 @@ export default function Post({content}) {
     const commentInput = useRef(null);
     const handleFocus = () => commentInput.current.focus();
 
-    // getPhotoURL(content.imageSrc).then( (url) => {
-    //     console.log("POST IMGURL = ", url);
-    //     setPhotoSrc(url);
-    // });
+    const colorSummary = content.colorSummary || "place-content-center mb-12 m-auto p-4 bg-gradient-to-br from-r0s to-r0e";
 
     console.log("POST downloadURL = ", content, content.imageSrc);
 
     return (
-        <div className="place-content-center mb-12 m-auto p-4 bg-r1e">
+        <div className={colorSummary}>
         <div className="rounded col-span-4 bg-official-post">
             <Header username={content.username} profilePic={content.profilePic} />
             <Image src={content.imageSrc} caption={content.caption}/>
             <Actions
                 docId={content.docId}
-                totalLikes={content.likes.length}
+                totalLikes={content.reactionNum}
                 userReaction={content.userReaction}
                 handleFocus={handleFocus}
             />

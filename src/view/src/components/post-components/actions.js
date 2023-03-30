@@ -44,7 +44,7 @@ export default function Actions( { totalLikes, userReaction, docId}) {
 
     return (
         <>
-          <div className="flex justify-around p-4 pl-2 pt-2 mx-20 transition-all">
+          <div className="flex justify-around p-4 pl-2 pt-2 mx-20 transition-all border-b-4">
             { currReaction ? (<a className={`${colorVarients[currReaction]}`} onClick={ () => {handleReaction(undefined)}}/>)
               : (
                 <>
@@ -60,7 +60,7 @@ export default function Actions( { totalLikes, userReaction, docId}) {
             }
           </div>
           <div className="p-4 py-0 pl-3">
-            <p className="font-bold text-[#E7E9FF]">{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
+            <p className="font-bold text-[#E7E9FF]">{likes === 1 ? `${likes} pog` : `${likes} pogs`}</p>
           </div>
         </>
       );

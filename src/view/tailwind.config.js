@@ -83,6 +83,9 @@ module.exports = {
       transitionProperty: {
         height: 'height',
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      }
     },
     cursor: {
       'zoom-in': 'zoom-in',
@@ -121,6 +124,9 @@ module.exports = {
         text: '#E7E9FF',
         post: '#2C2F52'
       },
+      // White
+      r0s: '#faf7f7',
+      r0e: '#dacece',
       // Red
       r1s: '#f59898',
       r1e: '#edb2b2',

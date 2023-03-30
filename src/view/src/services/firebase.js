@@ -124,12 +124,15 @@ export async function getPhotos(userId, following) {
           userReaction = photo.reactions[userId];
           console.log("USER ALREADY HAS REACTION = ", userReaction);
         }
+        let colorSummary = undefined;
+        let reactionNum = 0;
         if ( photo?.reactions && Object.keys(photo?.reactions).length > 0) {
-          const colorSummary = calculateColorSummary(photo.reactions);
+          colorSummary = calculateColorSummary(photo.reactions);
+          reactionNum = Object.keys(photo.reactions).length;
         }
         // jac
         const { username } = photo.username;
-        return { username, ...photo, userReaction };
+        return { username, ...photo, userReaction, colorSummary, reactionNum };
       })
     );
   
@@ -147,6 +150,17 @@ export function calculateColorSummary(reactions) {
     6: 0,
     7: 0
   }
+
+  let map = {
+    1: '#f59898',
+    2: '#f2b072',
+    3: '#eddc6f',
+    4: '#b9de73',
+    5: '#97d6f0',
+    6: '#e099c6',
+    7: '#272829'
+  }
+
   for (var r in reactions) {
     console.log("CALCULATE COLOR SUMMARY r = ", r);
     if (Object.prototype.hasOwnProperty.call(reactions, r)) {
@@ -159,28 +173,20 @@ export function calculateColorSummary(reactions) {
   let colorSumRes = "";
   // Empty
   if (summary[res[0]] === 0) {
-    colorSumRes = "place-content-center mb-12 m-auto p-4 bg-gradient-to-br from-r" + 0 + "s to-r" + + "e";
+    colorSumRes = "place-content-center mb-12 m-auto p-4 rounded-lg bg-gradient-to-br from-r0s to-r0e";
   }
   // One color
   else if (summary[res[1]] === 0) {
-
+    colorSumRes = `place-content-center mb-12 m-auto p-4 rounded-lg bg-gradient-to-br from-r${res[0]}s to-r${res[0]}e`;
   }
   // 2 Color
-  else if (summary[res[2]] === 0) {
-
-  }
   else {
-
+    colorSumRes = `place-content-center mb-12 m-auto p-4 rounded-lg bg-gradient-to-br from-r${res[0]}s to-r${res[1]}e`;
   }
-
-  // for (let key in summary){
-  //  res[3] = summary[key];
-  //  res.sort(function(a,b){return b-a});
-  // }
-  // res.pop();
   
-  console.log("CALCULATE COLOR SUMMARY = ", res);
-  return 1;
+  console.log("CALCULATE COLOR SUMMARY RES", res[2], summary[res[2]]);
+  console.log("CALCULATE COLOR SUMMARY = ", res, colorSumRes);
+  return colorSumRes;
 }
 
 function getThreeLargestKeys(obj){
