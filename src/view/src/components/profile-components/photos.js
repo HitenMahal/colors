@@ -4,6 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 export default function Photos( { photos } ) {
   console.log("PROFILE PHOTOS photos prop = ", photos, photos.length);
     return (
+    <div className="h-16 mt-12 pt-4">
       <div className='flex flex-row flex-wrap gap-4 justify-right pt-4'>
               {!photos 
                 ? new Array(12).fill(0).map((_,i) => <Skeleton key={i} width={320} height={400}/>)
@@ -50,7 +51,10 @@ export default function Photos( { photos } ) {
                   </p>
                 </div>
               </div>
-          </div> )) : null}
+          </div> )) 
+            : null}
+          </div>
+            {!photos || (photos.length === 0 && <p className="text-center text-xl ">No Posts Yet</p>)}
       </div>
     )
 }
