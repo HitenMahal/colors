@@ -13,13 +13,13 @@ export default function Post({content}) {
     const commentInput = useRef(null);
     const handleFocus = () => commentInput.current.focus();
 
-    const colorSummary = content.colorSummary || "place-content-center mb-12 m-auto p-4 bg-gradient-to-br from-r0s to-r0e";
+    const colorSummary = content.colorSummary || "place-content-center mb-12 m-auto p-4 rounded-lg bg-gradient-to-br from-r0s to-r0e";
 
     console.log("POST downloadURL = ", content, content.imageSrc);
 
     return (
         <div className={colorSummary}>
-        <div className="rounded col-span-4 bg-official-post mb-12">
+        <div className="rounded-lg col-span-4 bg-official-post mb-12">
             <Header username={content.username} profilePic={content.profilePic} />
             <Image src={content.imageSrc} caption={content.caption}/>
             <Actions

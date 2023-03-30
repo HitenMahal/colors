@@ -32,7 +32,7 @@ export default function Profile() {
 
   return user?.username ? (
     <LoggedInUserContext.Provider value={{userAuth, userObj, setActiveUser}}>
-        <div className="bg-gray-background">
+        <div className="bg-gradient-to-b from-official-background to-official-post min-h-[128rem]">
             <Header />
             <div className="mx-auto max-w-screen-lg">
                 <UserProfile user={user} />

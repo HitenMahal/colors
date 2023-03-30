@@ -60,7 +60,7 @@ export default function Actions( { totalLikes, userReaction, docId}) {
             }
           </div>
           <div className="p-4 py-0 pl-3">
-            <p className="font-bold text-[#E7E9FF]">{likes === 1 ? `${likes} pog` : `${likes} pogs`}</p>
+            <p className="font-bold text-[#E7E9FF]">{likes === 1 ? `${likes} reactions` : `${likes} reactions`}</p>
           </div>
         </>
       );
